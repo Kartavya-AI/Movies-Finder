@@ -1,9 +1,7 @@
-runtime: python312
-entrypoint: streamlit run main.py
-
-env_variables: 
-  OPENAI_API_KEY: ${OPENAI_API_KEY}
-  LANGSMITH_API_KEY: ${LANGSMITH_API_KEY}
-  TMDB_API_KEY: ${TMDB_API_KEY}
-
-
+- name: Deploy to Cloud Run
+  run: |
+    gcloud run deploy movies-finder \
+      --image gcr.io/$PROJECT_ID/cloud-run-source-deploy \
+      --platform managed \
+      --region europe-west1 \
+      --set-env-vars "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},LANGSMITH_API_KEY=${{ secrets.LANGSMITH_API_KEY }},TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}"
