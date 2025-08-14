@@ -18,7 +18,7 @@ async def main():
     os.environ['LANGCHAIN_PROJECT'] = 'movies-finder'
     os.environ['LANGUAGE'] = 'en-US'"""
 
-    config_file = "browser_mcp.json"
+    #config_file = "browser_mcp.json"
 
     print("Initializing chat...")
     
