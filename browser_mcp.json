@@ -6,9 +6,9 @@
         "tv-recommender-mcp-server"
       ],
       "env": {
-        "TMDB_API_KEY": ${TMDB_API_KEY},
-        "OPENAI_API_KEY": ${OPENAI_API_KEY},
-        "LANGSMITH_API_KEY": ${LANGSMITH_API_KEY},
+        "TMDB_API_KEY": "${TMDB_API_KEY}",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "LANGSMITH_API_KEY": "${LANGSMITH_API_KEY}",
         "LANGUAGE": "en-US"
       }
     }
