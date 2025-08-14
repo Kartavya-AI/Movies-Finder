@@ -10,8 +10,8 @@ import streamlit as st
 async def main():
     # Load environment variables
     load_dotenv()
-    os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
-    os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH_API_KEY')
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    LANGSMITH_API_KEY = os.getenv('LANGSMITH_API_KEY')
     os.environ['LANGSMITH_TRACING'] = 'true'
     os.environ['LANGCHAIN_TRACING_V2'] = 'true'
     os.environ['LANGCHAIN_ENDPOINT'] = 'https://api.smith.langchain.com'
