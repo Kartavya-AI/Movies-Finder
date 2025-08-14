@@ -6,7 +6,7 @@
         "tv-recommender-mcp-server"
       ],
       "env": {
-        "TMDB_API_KEY": "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",
+        "TMDB_API_KEY": "dc875c1a1694a80ce70384c090da475b",
         "LANGUAGE": "en-US"
       }
     }
