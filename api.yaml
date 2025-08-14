@@ -3,7 +3,7 @@ entrypoint: streamlit run main.py
 
 env_variables: 
   OPENAI_API_KEY: ${OPENAI_API_KEY}
-  LANGSMITH_API_KEY: "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"
-  TMDB_API_KEY: "5f203fdd85f52494f3f0978a3857638e"
+  LANGSMITH_API_KEY: ${LANGSMITH_API_KEY}
+  TMDB_API_KEY: ${TMDB_API_KEY}
 
 
