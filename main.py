@@ -10,13 +10,13 @@ import streamlit as st
 async def main():
     # Load environment variables
     load_dotenv()
-    """os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
+    os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
     os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH_API_KEY')
     os.environ['LANGSMITH_TRACING'] = 'true'
     os.environ['LANGCHAIN_TRACING_V2'] = 'true'
     os.environ['LANGCHAIN_ENDPOINT'] = 'https://api.smith.langchain.com'
     os.environ['LANGCHAIN_PROJECT'] = 'movies-finder'
-    os.environ['LANGUAGE'] = 'en-US'"""
+    os.environ['LANGUAGE'] = 'en-US'
 
     config_file = "browser_mcp.json"
 
@@ -26,7 +26,7 @@ async def main():
     if "client" not in st.session_state:
         st.session_state.client = MCPClient.from_config_file(config_file)
     if "llm" not in st.session_state:
-        st.session_state.llm = ChatOpenAI(model="gpt-3.5-turbo",base_url="https://openrouter.ai/api/v1",api_key="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",max_tokens=200,temperature=0.7)
+        st.session_state.llm = ChatOpenAI(model="gpt-3.5-turbo",base_url="https://openrouter.ai/api/v1",max_tokens=200,temperature=0.7)
     if "agent" not in st.session_state:
         st.session_state.agent = MCPAgent(llm=st.session_state.llm, client=st.session_state.client, max_steps=5, memory_enabled=True)
         st.session_state.agent.set_system_message(
