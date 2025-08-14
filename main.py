@@ -26,7 +26,7 @@ async def main():
     if "client" not in st.session_state:
         st.session_state.client = MCPClient.from_config_file(config_file)
     if "llm" not in st.session_state:
-        st.session_state.llm = ChatOpenAI(model="gpt-3.5-turbo",base_url="https://openrouter.ai/api/v1",max_tokens=200,temperature=0.7)
+        st.session_state.llm = ChatOpenAI(model="gpt-3.5-turbo",base_url="https://openrouter.ai/api/v1",api_key=OPEN_API_KEY,max_tokens=200,temperature=0.7)
     if "agent" not in st.session_state:
         st.session_state.agent = MCPAgent(llm=st.session_state.llm, client=st.session_state.client, max_steps=5, memory_enabled=True)
         st.session_state.agent.set_system_message(
