@@ -63,7 +63,7 @@ async def main():
                 assistant_response = f"Error: {str(e)}"
         st.session_state.history.append(("assistant", assistant_response))
         st.session_state.input = ""
-        await asyncio.sleep(5)
+        #await asyncio.sleep(5)
 
     st.title("Interactive MCP Agent chat")
     for role, message in st.session_state.history:
