@@ -46,7 +46,7 @@ async def main():
 
     @traceable(project_name="movies-finder")
     async def run_agent(user_input):
-        await asyncio.sleep(5)
+        #await asyncio.sleep(5)
         return await st.session_state.agent.run(user_input)
 
     # Async wrapper to run agent and update state synchronously
