@@ -8,5 +8,4 @@ __pycache__
 .gitignore
 .env
 .DS_Store
-node_modules
 pyproject.toml
