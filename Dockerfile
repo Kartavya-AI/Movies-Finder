@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Install any Node MCP packages globally if needed
-RUN npm install -g tv-recommender-mcp-server
+#RUN npm install -g tv-recommender-mcp-server
 
 # Expose the port Streamlit will run on
 EXPOSE 8080
