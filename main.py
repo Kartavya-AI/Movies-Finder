@@ -1,5 +1,6 @@
 import asyncio
 import os
+import json
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from mcp_use import MCPAgent, MCPClient
@@ -7,21 +8,37 @@ from langsmith import traceable
 import streamlit as st
 
 async def main():
+    # Load environment variables from .env (locally)
     load_dotenv()
+
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     LANGSMITH_API_KEY = os.getenv('LANGSMITH_API_KEY')
+    TMDB_API_KEY = os.getenv('TMDB_API_KEY')
+
     os.environ['LANGSMITH_TRACING'] = 'true'
     os.environ['LANGCHAIN_TRACING_V2'] = 'true'
     os.environ['LANGCHAIN_ENDPOINT'] = 'https://api.smith.langchain.com'
     os.environ['LANGCHAIN_PROJECT'] = 'movies-finder'
     os.environ['LANGUAGE'] = 'en-US'
-    config_file = "browser_mcp.json"
 
     if not OPENAI_API_KEY:
         raise ValueError("OPENAI_API_KEY not found in environment variables")
 
+    # Inject env vars into MCP config
+    with open("browser_mcp.json", "r") as f:
+        config = json.load(f)
+    env_vars = config["mcpServers"]["TVRecommender"]["env"]
+    env_vars["TMDB_API_KEY"] = TMDB_API_KEY
+    env_vars["OPENAI_API_KEY"] = OPENAI_API_KEY
+    env_vars["LANGSMITH_API_KEY"] = LANGSMITH_API_KEY
+
+    runtime_config_file = "browser_mcp_runtime.json"
+    with open(runtime_config_file, "w") as f:
+        json.dump(config, f, indent=2)
+
+    # Initialize MCP client with runtime config
     if "client" not in st.session_state:
-        st.session_state.client = MCPClient.from_config_file(config_file)
+        st.session_state.client = MCPClient.from_config_file(runtime_config_file)
     if "llm" not in st.session_state:
         st.session_state.llm = ChatOpenAI(
             model="gpt-3.5-turbo",
@@ -32,7 +49,10 @@ async def main():
         )
     if "agent" not in st.session_state:
         st.session_state.agent = MCPAgent(
-            llm=st.session_state.llm, client=st.session_state.client,max_steps=75, memory_enabled=True
+            llm=st.session_state.llm,
+            client=st.session_state.client,
+            max_steps=75,
+            memory_enabled=True
         )
         st.session_state.agent.set_system_message(
             "You are an assistant. Always respond strictly in English. "
@@ -46,24 +66,20 @@ async def main():
 
     @traceable(project_name="movies-finder")
     async def run_agent(user_input):
-        #await asyncio.sleep(5)
         return await st.session_state.agent.run(user_input)
 
-    # Async wrapper to run agent and update state synchronously
     def send_message():
         user_input = st.session_state.input.strip()
         if not user_input:
             return
         st.session_state.history.append(("user", user_input))
         with st.spinner("Assistant is typing..."):
-            # Use asyncio.run for the single call here safely
             try:
                 assistant_response = asyncio.run(run_agent(user_input))
             except Exception as e:
                 assistant_response = f"Error: {str(e)}"
         st.session_state.history.append(("assistant", assistant_response))
         st.session_state.input = ""
-        #await asyncio.sleep(5)
 
     st.title("Interactive MCP Agent chat")
     for role, message in st.session_state.history:
@@ -77,7 +93,6 @@ async def main():
         if "client" in st.session_state and st.session_state.client.sessions:
             asyncio.run(st.session_state.client.close_all_sessions())
         st.session_state.history.clear()
-
 
 if __name__ == "__main__":
     asyncio.run(main())
