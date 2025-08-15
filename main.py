@@ -8,8 +8,9 @@ from langsmith import traceable
 import streamlit as st
 
 async def main():
-    # Load environment variables from .env (locally)
-    load_dotenv()
+    # Load .env only in local dev
+    if os.path.exists(".env"):
+        load_dotenv()
 
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     LANGSMITH_API_KEY = os.getenv('LANGSMITH_API_KEY')
@@ -36,7 +37,6 @@ async def main():
     with open(runtime_config_file, "w") as f:
         json.dump(config, f, indent=2)
 
-    # Initialize MCP client with runtime config
     if "client" not in st.session_state:
         st.session_state.client = MCPClient.from_config_file(runtime_config_file)
     if "llm" not in st.session_state:
