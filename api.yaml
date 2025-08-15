@@ -4,4 +4,4 @@
       --image gcr.io/$PROJECT_ID/cloud-run-source-deploy \
       --platform managed \
       --region europe-west1 \
-      --set-env-vars "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},LANGSMITH_API_KEY=${{ secrets.LANGSMITH_API_KEY }},TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}"
+      --set-env-vars "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},LANGSMITH_API_KEY=${{ secrets.LANGSMITH_API_KEY }},RAPID_API_KEY_IMDB=${{ secrets.RAPID_API_KEY_IMDB }}"
