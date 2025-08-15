@@ -1,15 +1,15 @@
 {
   "mcpServers": {
-    "imdb_server": {
-      "command": "docker",
+    "TVRecommender": {
+      "command": "npx",
       "args": [
-        "exec",
-        "-i",
-        "imdb_server",
-        "imdb-mcp-server"
+        "tv-recommender-mcp-server"
       ],
       "env": {
-        "RAPID_API_KEY_IMDB": "${RAPID_API_KEY_IMDB}"
+        "TMDB_API_KEY": "${TMDB_API_KEY}",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "LANGSMITH_API_KEY": "${LANGSMITH_API_KEY}",
+        "LANGUAGE": "en-US"
       }
     }
   }
