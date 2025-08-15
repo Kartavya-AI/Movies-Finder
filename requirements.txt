@@ -5,4 +5,3 @@ langsmith>=0.4.13
 mcp-use
 mcp[cli]>=1.12.4
 streamlit>=1.48.0
-python==3.12
