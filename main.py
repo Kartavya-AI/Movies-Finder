@@ -32,7 +32,7 @@ async def main():
         )
     if "agent" not in st.session_state:
         st.session_state.agent = MCPAgent(
-            llm=st.session_state.llm, client=st.session_state.client, memory_enabled=True
+            llm=st.session_state.llm, client=st.session_state.client,max_steps=100, memory_enabled=True
         )
         st.session_state.agent.set_system_message(
             "You are an assistant. Always respond strictly in English. "
