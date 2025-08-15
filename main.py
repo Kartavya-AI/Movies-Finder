@@ -46,6 +46,7 @@ async def main():
 
     @traceable(project_name="movies-finder")
     async def run_agent(user_input):
+        await asyncio.sleep(5)
         return await st.session_state.agent.run(user_input)
 
     # Async wrapper to run agent and update state synchronously
@@ -62,6 +63,7 @@ async def main():
                 assistant_response = f"Error: {str(e)}"
         st.session_state.history.append(("assistant", assistant_response))
         st.session_state.input = ""
+        await asyncio.sleep(5)
 
     st.title("Interactive MCP Agent chat")
     for role, message in st.session_state.history:
