@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "TVRecommender": {
-      "command": "docker",
+      "command": "npx",
       "args": [
         "run",
         "--rm",
