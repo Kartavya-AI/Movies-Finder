@@ -68,14 +68,14 @@ async def main():
     async def run_agent(user_input):
         return await st.session_state.agent.run(user_input)
 
-    def send_message():
+    async def send_message():
         user_input = st.session_state.input.strip()
         if not user_input:
             return
         st.session_state.history.append(("user", user_input))
         with st.spinner("Assistant is typing..."):
             try:
-                assistant_response = asyncio.run(run_agent(user_input))
+                assistant_response = await run_agent(user_input)
             except Exception as e:
                 assistant_response = f"Error: {str(e)}"
         st.session_state.history.append(("assistant", assistant_response))
@@ -87,7 +87,7 @@ async def main():
     with col2:
         if st.button("Clear History"):
             if "client" in st.session_state and st.session_state.client.sessions:
-                asyncio.create_task(st.session_state.client.close_all_sessions())
+                await st.session_state.client.close_all_sessions()
         st.session_state.history.clear()
         st.session_state.input = ""
         st.rerun()
@@ -100,7 +100,7 @@ async def main():
 
     st.text_input("Enter your message:", key="input")
     if st.button("Send"):
-        asyncio.creat_task(send_message())
+        await send_message()
 
 if __name__ == "__main__":
     asyncio.run(main())
