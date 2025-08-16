@@ -44,7 +44,7 @@ async def main():
             model="gpt-3.5-turbo",
             base_url="https://openrouter.ai/api/v1",
             api_key=OPENAI_API_KEY,
-            max_tokens=200,
+            max_tokens=100,
             temperature=0.7,
         )
     if "agent" not in st.session_state:
