@@ -51,7 +51,7 @@ async def main():
         st.session_state.agent = MCPAgent(
             llm=st.session_state.llm,
             client=st.session_state.client,
-            max_steps=75,
+            max_steps=5,
             memory_enabled=True
         )
         st.session_state.agent.set_system_message(
@@ -75,7 +75,7 @@ async def main():
         st.session_state.history.append(("user", user_input))
         with st.spinner("Assistant is typing..."):
             try:
-                assistant_response = await run_agent(user_input)
+                assistant_response = asyncio.run(run_agent(user_input))
             except Exception as e:
                 assistant_response = f"Error: {str(e)}"
         st.session_state.history.append(("assistant", assistant_response))
