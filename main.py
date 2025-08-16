@@ -44,14 +44,14 @@ async def main():
             model="gpt-3.5-turbo",
             base_url="https://openrouter.ai/api/v1",
             api_key=OPENAI_API_KEY,
-            max_tokens=100,
+            max_tokens=200,
             temperature=0.7,
         )
     if "agent" not in st.session_state:
         st.session_state.agent = MCPAgent(
             llm=st.session_state.llm,
             client=st.session_state.client,
-            max_steps=5,
+            max_steps=75,
             memory_enabled=True
         )
         st.session_state.agent.set_system_message(
@@ -68,7 +68,7 @@ async def main():
     async def run_agent(user_input):
         return await st.session_state.agent.run(user_input)
 
-    async def send_message():
+    def send_message():
         user_input = st.session_state.input.strip()
         if not user_input:
             return
@@ -89,9 +89,11 @@ async def main():
         else:
             st.markdown(f"**Assistant:** {message}")
 
-    user_input = st.text_input("Enter your message:", key="input")
-    if st.button("Send"):
-        asyncio.create_task(send_message())
+    st.text_input("Enter your message:", key="input", on_change=send_message)
+    if st.button("Clear history"):
+        if "client" in st.session_state and st.session_state.client.sessions:
+            asyncio.run(st.session_state.client.close_all_sessions())
+        st.session_state.history.clear()
 
 if __name__ == "__main__":
     asyncio.run(main())
