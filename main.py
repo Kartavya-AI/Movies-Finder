@@ -87,7 +87,7 @@ async def main():
     with col2:
         if st.button("Clear History"):
             if "client" in st.session_state and st.session_state.client.sessions:
-            asyncio.create_task(st.session_state.client.close_all_sessions())
+                asyncio.create_task(st.session_state.client.close_all_sessions())
         st.session_state.history.clear()
         st.session_state.input = ""
         st.rerun()
