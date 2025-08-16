@@ -81,18 +81,26 @@ async def main():
         st.session_state.history.append(("assistant", assistant_response))
         st.session_state.input = ""
 
-    st.title("Interactive MCP Agent chat")
+    st.title("Conversational Movie Assistant")
+
+    col1,col2 = st.columns([8,1])
+    with col2:
+        if st.button("Clear History"):
+            if "client" in st.session_state and st.session_state.client.sessions:
+            asyncio.create_task(st.session_state.client.close_all_sessions())
+        st.session_state.history.clear()
+        st.session_state.input = ""
+        st.rerun()
+    
     for role, message in st.session_state.history:
         if role == "user":
             st.markdown(f"**You:** {message}")
         else:
             st.markdown(f"**Assistant:** {message}")
 
-    st.text_input("Enter your message:", key="input", on_change=send_message)
-    if st.button("Clear history"):
-        if "client" in st.session_state and st.session_state.client.sessions:
-            asyncio.run(st.session_state.client.close_all_sessions())
-        st.session_state.history.clear()
+    st.text_input("Enter your message:", key="input")
+    if st.button("Send"):
+        asyncio.creat_task(send_message())
 
 if __name__ == "__main__":
     asyncio.run(main())
