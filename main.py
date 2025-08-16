@@ -82,15 +82,6 @@ async def main():
         st.session_state.input = ""
 
     st.title("Conversational Movie Assistant")
-
-    col1,col2 = st.columns([8,1])
-    with col2:
-        if st.button("Clear History"):
-            if "client" in st.session_state and st.session_state.client.sessions:
-                await st.session_state.client.close_all_sessions()
-        st.session_state.history.clear()
-        st.session_state.input = ""
-        st.rerun()
     
     for role, message in st.session_state.history:
         if role == "user":
@@ -98,9 +89,9 @@ async def main():
         else:
             st.markdown(f"**Assistant:** {message}")
 
-    st.text_input("Enter your message:", key="input")
+    user_input = st.text_input("Enter your message:", key="input")
     if st.button("Send"):
-        await send_message()
+        asyncio.create_task(send_message())
 
 if __name__ == "__main__":
     asyncio.run(main())
