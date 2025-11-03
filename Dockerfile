@@ -21,8 +21,6 @@ COPY . .
 # Install any Node MCP packages globally if needed
 RUN npm install -g tv-recommender-mcp-server
 
-# Expose the port Streamlit will run on
 EXPOSE 8080
 
-# Start the Streamlit app when the container runs
-CMD ["streamlit", "run", "main.py", "--server.port=8080", "--server.address=0.0.0.0"]
+CMD ["uvicorn", "fastapi_app:app", "--host", "0.0.0.0", "--port", "8080"]
